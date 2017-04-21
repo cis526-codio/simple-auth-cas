@@ -1,0 +1,24 @@
+{
+  "name": "simple-auth-cas",
+  "version": "1.0.0",
+  "description": "A simple Node server implementing CAS login.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zombiepaladin/simple-auth-cas.git"
+  },
+  "keywords": [
+    "CAS",
+    "Node"
+  ],
+  "author": "Nathan H. Bean",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zombiepaladin/simple-auth-cas/issues"
+  },
+  "homepage": "https://github.com/zombiepaladin/simple-auth-cas#readme"
+}
