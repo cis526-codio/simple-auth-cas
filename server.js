@@ -18,7 +18,7 @@ var server = new http.Server(handleRequest);
 // hostnames, we nee to build urls.  Since we pass our serviceHost
 // as a url component in the search string, we need to url-encode it.
 var serviceHost = encodeURIComponent('http://localhost:3000/');
-var casHost = 'https://signin.k-state.edu/WebISO/';
+var casHost = 'https://casserver.herokuapp.com/cas/';
 
 /** @function handleRequest
  * The webserver's request handling function
