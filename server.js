@@ -9,6 +9,7 @@ const PORT = 3000;
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
+var process = require('process');
 var encryption = require('./lib/encryption');
 var parseCookie = require('./lib/cookie-parser');
 var urlencoded = require('./lib/form-urlencoded');
@@ -17,8 +18,8 @@ var server = new http.Server(handleRequest);
 // The serviceHost (our server) and casHost (the CAS server)
 // hostnames, we nee to build urls.  Since we pass our serviceHost
 // as a url component in the search string, we need to url-encode it.
-var serviceHost = encodeURIComponent('http://localhost:3000/');
-var casHost = 'https://casserver.herokuapp.com/cas/';
+var serviceHost = encodeURIComponent('https://' + process.env.CODIO_HOSTNAME + '-3000.codio.io/');
+var casHost = 'https://casserver.herokuapp.com/cas';
 
 /** @function handleRequest
  * The webserver's request handling function
@@ -73,11 +74,13 @@ function handleRequest(req, res) {
       break;
 
     case '/ticket':
+      // The logout process posts to this URL, so just ignore
+      if (req.method != "GET") return;
       // get the ticket from the querystring
       var ticket = require('querystring').parse(urlParts.search.slice(1))['ticket'];
       // We need to verify this ticket with the CAS server,
       // by making a request against its serviceValidate url
-      var url = casHost + 'serviceValidate?ticket=' + ticket + '&service=' + serviceHost + "ticket";
+      var url = casHost + '/serviceValidate?ticket=' + ticket + '&service=' + serviceHost + "ticket";
       https.get(url, function(response){
         var body = "";
         // The request body will come in chunks; we
@@ -100,9 +103,11 @@ function handleRequest(req, res) {
             var sessionData = JSON.stringify(session);
             var sessionCrypt = encryption.encipher(sessionData);
             res.setHeader('Set-Cookie', ['cryptsession=' + sessionCrypt + '; session;']);
+            // Typically you would redirect back to the home page here
+            // But we'll just write some links
             res.statusCode = 200;
             res.setHeader("Content-Type", "text/html");
-            res.end('Logged in! Visit <a href="/one">one</a> <a href="/two">two</a>');
+            res.end('Logged in! <a href="/">Back to Home</a>');
           } else {
             // If there is no match, the CAS server rejected
             // the token.
@@ -125,6 +130,7 @@ function handleRequest(req, res) {
       res.setHeader("Location", casHost + "/logout");
       res.end();
       break;
+
 
     case '/one':
       // Make sure the user is logged in before serving
