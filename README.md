@@ -26,7 +26,7 @@ At the top of the file, we see two variable definitions that are very important 
 
 ```js
 var serviceHost = encodeURIComponent('https://' + process.env.CODIO_HOSTNAME + '-3000.codio.io/');
-var casHost = 'https://casserver.herokuapp.com/cas';
+var casHost = 'https://testcas.cs.ksu.edu';
 ```
 
 The first definition, `serviceHost`, is used to identify our application to the CAS server. In practice, many CAS servers only allow authentication from authorized applications, reducing the risk of user information and credentials being stolen by unauthorized applications. 

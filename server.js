@@ -19,7 +19,7 @@ var server = new http.Server(handleRequest);
 // hostnames, we nee to build urls.  Since we pass our serviceHost
 // as a url component in the search string, we need to url-encode it.
 var serviceHost = encodeURIComponent('https://' + process.env.CODIO_HOSTNAME + '-3000.codio.io/');
-var casHost = 'https://casserver.herokuapp.com/cas';
+var casHost = 'https://testcas.cs.ksu.edu';
 
 /** @function handleRequest
  * The webserver's request handling function
